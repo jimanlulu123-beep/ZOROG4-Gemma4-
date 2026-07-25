@@ -1,0 +1,6 @@
+{
+  "name": "ZoroG4",
+  "description": "ZoroG4 — Studio IA alimenté par Gemma 4. Créé par JIMAN LULU Zoro. Génération de texte, refactorisation de code, analyse multimodale et benchmark local.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
