@@ -287,12 +287,6 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
                 {msg.role === 'assistant' && (
                   <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-white/10 pt-2 text-[10px] font-mono text-slate-400 dark:text-white/40">
                     <div className="flex items-center gap-2">
-                      {msg.metrics && (
-                        <span className="flex items-center gap-1 rounded-xs bg-purple-50 dark:bg-white/5 px-1.5 py-0.5 text-purple-700 dark:text-purple-400 font-bold border border-purple-200 dark:border-white/5">
-                          <Zap className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-                          {msg.metrics.latencyMs}ms
-                        </span>
-                      )}
                       <span className="uppercase tracking-widest text-slate-500 dark:text-white/50 truncate max-w-[110px] sm:max-w-none">
                         {msg.metrics?.gemmaAlias || currentModel}
                       </span>

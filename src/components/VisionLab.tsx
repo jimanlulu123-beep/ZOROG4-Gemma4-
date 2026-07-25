@@ -279,12 +279,6 @@ export const VisionLab: React.FC<VisionLabProps> = ({ onAnalyzeImage }) => {
                 <h3 className="text-xs font-black uppercase tracking-widest text-slate-900 dark:text-white">
                   Rapport Inférence Visuelle
                 </h3>
-                {metrics && (
-                  <span className="flex items-center gap-1 rounded-xs bg-purple-50 dark:bg-white/5 px-2 py-0.5 font-mono text-[10px] text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-white/10 font-bold">
-                    <Zap className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-                    {metrics.latencyMs}ms
-                  </span>
-                )}
               </div>
 
               {resultText && (

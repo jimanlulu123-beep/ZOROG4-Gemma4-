@@ -169,8 +169,6 @@ export default function App() {
     imgBase64?: string
   ): string => {
     const p = (promptStr || '').toLowerCase();
-    const themeTag = currentTheme === 'light' ? '[THEME:LIGHT_GREEN]' : '[THEME:DARK_PURPLE]';
-    const prefix = `${themeTag}\n\n`;
 
     if (
       p.includes('créateur') ||
@@ -183,26 +181,20 @@ export default function App() {
       p.includes('lulu') ||
       p.includes('zoro')
     ) {
-      return `${prefix}### 👑 Informations sur ZoroG4 & Créateur
+      return `Bonjour ! L'application **ZoroG4** a été créée par **JIMAN LULU Zoro**.
 
-Cette application **ZoroG4** a été **créée par JIMAN LULU Zoro**.
-
-- **Application :** ZoroG4 (gemma4)
-- **Créateur & Propriétaire :** JIMAN LULU Zoro
-- **Moteur IA :** Gamme de modèles ouverts Gemma 4 (Google DeepMind)
-- **Status :** Inférence Local Edge Autonome (Fonctionne 100% hors-ligne)`;
+Elle repose sur la gamme de modèles intelligents Gemma 4 développés par Google DeepMind. N'hésitez pas si vous avez la moindre question !`;
     }
 
     if (imgBase64) {
       if (p.includes('ocr') || p.includes('texte') || p.includes('extrais')) {
-        return `${prefix}### 📄 Extraction OCR (Moteur Local Gemma 4 Vision)
+        return `Voici le texte extrait de votre image :
 
-**Texte extrait de l'image :**
-> "Gemma 4 Open Weights Model — High-Efficiency, Multimodal & Offline Edge Inference Engine."
+> *"Gemma 4 Open Weights Model — High-Efficiency, Multimodal & Offline Edge Inference Engine."*
 
-*Analyse effectuée par le moteur autonome local Gemma 4 Vision.*`;
+N'hésitez pas si vous avez d'autres questions sur ce visuel !`;
       } else if (p.includes('react') || p.includes('ui') || p.includes('composant') || p.includes('code')) {
-        return `${prefix}### 🎨 Conversion UI vers React & Tailwind (Gemma 4 Vision Local)
+        return `Voici un composant React & Tailwind inspiré du visuel transmis :
 
 \`\`\`tsx
 import React from 'react';
@@ -217,7 +209,7 @@ export const VisionGeneratedCard = () => {
         <h3 className="text-lg font-bold">Composant Extrait du Visuel</h3>
       </div>
       <p className="mt-3 text-sm text-slate-300">
-        Design converti avec succès par le moteur local Gemma 4 Vision.
+        Design généré par Gemma 4.
       </p>
     </div>
   );
@@ -225,11 +217,9 @@ export const VisionGeneratedCard = () => {
 \`\`\`
 `;
       } else {
-        return `${prefix}### 👁️ Rapport d'Analyse Visuelle (Gemma 4 Vision Local)
+        return `J'ai bien analysé votre image ! J'y distingue les formes principales, les zones de contraste et la composition.
 
-1. **Sujet principal :** Composition visuelle transmise.
-2. **Éléments détectés :** Formes, contraste et zones d'intérêt identifiés.
-3. **Moteur :** Inférence locale autonome Gemma 4 Vision.`;
+Avez-vous besoin d'autres détails sur cette image ?`;
       }
     }
 
@@ -240,10 +230,9 @@ export const VisionGeneratedCard = () => {
       p.includes('test') ||
       modelStr === 'gemma-4-code'
     ) {
-      return `${prefix}### 💻 Analyse & Refactorisation Gemma 4 Code (Inférence Locale Edge)
+      return `Voici une version optimisée, propre et bien typée en TypeScript :
 
 \`\`\`typescript
-// Code optimisé et sécurisé par Gemma 4 Code (Local Mode)
 export interface DataProcessorOptions {
   strictMode?: boolean;
   timeoutMs?: number;
@@ -269,9 +258,9 @@ export async function processDataSafely<T>(
 }
 \`\`\`
 
-**Optimisations Gemma 4 Code :**
-- Typage générique et validation stricte
-- Gestion sécurisée des collections et valeurs par défaut`;
+**Améliorations apportées :**
+- Typage générique strict (\`T\`)
+- Validation et sécurisation des données d'entrée.`;
     }
 
     if (
@@ -285,42 +274,18 @@ export async function processDataSafely<T>(
       p.includes('horaire') ||
       p.includes('trajet')
     ) {
-      return `${prefix}### 🚚 Synthèse Logistique & Transport Régional (ZoroG4 Edge)
+      return `En ce qui concerne la logistique et le transport régional :
 
-\`\`\`json
-{
-  "statut_reponse": "succes_securise",
-  "assistant": "ZoroG4 Transport & Logistique",
-  "directives_appliquees": [
-    "Respect du contexte metier logistique",
-    "Anti-hallucination active (donnees factuelles uniquement)",
-    "Format adapte au backend",
-    "Validation de securite pre-execution"
-  ],
-  "analyse_demande": {
-    "sujet": "${promptStr.substring(0, 80)}...",
-    "mode_donnees": "requiert_api_temps_reel_si_flotte_dynamic"
-  },
-  "recommandation_securisee": {
-    "optimisation_flux": "Validation des plannings selon la reglementation de conduite et les fenetres de livraison regional",
-    "conformite": "Verification automatique des signatures et des lettres de voiture electroniques (e-CMR)"
-  }
-}
-\`\`\`
+- **Planification des flux :** Validation des plannings en fonction des règles de conduite et des créneaux.
+- **Conformité :** Suivi automatisé des e-CMR et des documents de transport.
+- **Transparence :** Données en temps réel pour optimiser vos opérations.
 
-**Note d'Anti-Hallucination :** Conformément à mes directives de sécurité, je n'invente aucun horaire ni tarif chiffré sans connexion directe à la base de données de votre flotte.`;
+Comment puis-je vous guider plus précisément sur votre gestion de flotte ou vos trajets ?`;
     }
 
-    return `${prefix}### ⚡ Gemma 4 (${modelStr.toUpperCase()}) - Inférence Local Edge Autonome
+    return `Bonjour ! Je suis **ZoroG4**, votre assistant intelligent propulsé par **Gemma 4** de Google DeepMind (créé par **JIMAN LULU Zoro**).
 
-Bonjour ! Je suis **ZoroG4**, l'assistant IA de gestion et transport régional alimenté par **Gemma 4** de **Google DeepMind** (Créé par **JIMAN LULU Zoro**).
-
-**Analyse de votre requête :** *"${promptStr}"*
-
-**Moteur Local Edge (100% Hors-Ligne) :**
-- **Inférence Locale :** Réponses générées directement dans votre navigateur sans aucune dépendance serveur.
-- **Conformité de Thème :** Balise de thème \`${themeTag}\` appliquée au début de la réponse.
-- **Raisonnement & Vitesse :** Performance instantanée et haute fiabilité.`;
+Comment puis-je vous aider aujourd'hui ? Je suis là pour répondre à vos questions, vous accompagner sur du code ou analyser vos données.`;
   };
 
   // Streaming message generator for Chat Playground

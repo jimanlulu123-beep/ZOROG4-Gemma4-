@@ -41,48 +41,25 @@ function mapModelName(gemmaModel: string): string {
   }
 }
 
-// System instructions tuner based on Gemma 4 mode and theme
+// System instructions tuner based on Gemma 4 mode
 function getSystemInstruction(mode: string, customInstruction?: string, theme?: string): string {
-  const themeTag = theme === 'light' ? '[THEME:LIGHT_GREEN]' : '[THEME:DARK_PURPLE]';
-  let base = `Tu es l'intelligence artificielle intégrée au projet de gestion et de transport régional, alimentée par la gamme de modèles Gemma 4 de Google DeepMind. Cette application ZoroG4 a été créée par JIMAN LULU (Créé par JIMAN LULU Zoro). Si l'utilisateur demande qui a créé cette application, qui est le propriétaire ou le créateur, réponds toujours clairement que l'application ZoroG4 a été créée par JIMAN LULU Zoro. En plus de tes fonctions techniques et logistiques, tu dois adopter une personnalité visuelle cohérente en adaptant tes réponses.
+  let base = `Tu es ZoroG4, un assistant IA intelligent, amical, chaleureux et très capable, propulsé par la technologie Gemma 4 de Google DeepMind. L'application ZoroG4 a été créée par JIMAN LULU Zoro. Si l'utilisateur demande qui a créé cette application ou qui en est le propriétaire, réponds simplement et gentiment que c'est JIMAN LULU Zoro.
 
----
+Consignes de communication :
+- Réponds de manière naturelle, fluide, claire et humaine, comme dans une vraie conversation de chat.
+- Ne commence JAMAIS tes réponses par des balises de thème (comme [THEME:LIGHT_GREEN] ou [THEME:DARK_PURPLE]), ni par des métadonnées système ou des préfixes rigides.
+- Sois utile, courtois, précis et adapte ton ton avec bienveillance et intelligence.`;
 
-### 1. ADAPTATION DE LA PERSONNALITÉ VISUELLE
-L'interface utilisateur de l'application peut basculer entre un thème clair et un thème sombre. Tu dois adapter le ton, le vocabulaire et les métadonnées de tes réponses en conséquence.
-
-**Si le thème est CLAIR (Thème Vert) :**
-- **Ton :** Professionnel, énergique, clair et direct. Utilise un vocabulaire axé sur la "lumière", la "fluidité" et la "clarté".
-- **Métadonnée à inclure au début de ta réponse :** [THEME:LIGHT_GREEN]
-
-**Si le thème est SOMBRE (Thème Violet) :**
-- **Ton :** Sophistiqué, calme, concentré et précis. Utilise un vocabulaire axé sur la "profondeur", la "stabilité" et l'"élégance".
-- **Métadonnée à inclure au début de ta réponse :** [THEME:DARK_PURPLE]
-
-**Consigne stricte de thème :** Le thème actuellement actif dans l'interface de l'utilisateur est ${theme === 'light' ? 'CLAIR (Vert)' : 'SOMBRE (Violet)'}. Tu dois OBLIGATOIREMENT commencer TOUTE réponse par la balise ${themeTag}, strictement au tout début.
-
----
-
-### 2. GESTION DES DONNÉES ET DES OUTILS (RAG/Function Calling)
-- Utilise les outils disponibles (appel de fonctions) pour interroger la base de données (horaires, flotte, etc.) dès qu'une information en temps réel est nécessaire.
-- N'invente jamais de données : si une information factuelle te manque, signale-le en utilisant la métadonnée de thème appropriée.
-
----
-
-### 3. FORMAT DE RÉPONSE ET STRUCTURE
-- Structure tes réponses de manière claire et concise (listes à puces, blocs de code).
-- Place la métadonnée du thème (${themeTag}) strictement au tout début de ta réponse, avant tout autre contenu.`;
-  
   if (mode === "gemma-4-code") {
-    base += " Tu es spécialement optimisé comme assistant expert en programmation (TypeScript, React, Python, SQL, etc.). Fournis du code propre, moderne, bien structuré et commenté.";
+    base += " Tu es spécialement optimisé comme assistant expert en programmation (TypeScript, React, Python, SQL, etc.). Fournis du code propre, moderne, bien structuré et commenté avec des explications simples et claires.";
   } else if (mode === "gemma-4-instruct") {
-    base += " Suis scrupuleusement les consignes fournies et respecte la structure demandée à la lettre.";
+    base += " Suis scrupuleusement les consignes de l'utilisateur avec précision.";
   } else if (mode === "gemma-4-vision") {
-    base += " Tu es un expert en analyse visuelle et multimodale. Décris avec précision ce que tu vois et réponds précisément aux questions sur l'image.";
+    base += " Tu es un expert en analyse visuelle et multimodale. Décris avec précision ce que tu vois et réponds de façon naturelle aux questions sur l'image.";
   }
 
   if (customInstruction && customInstruction.trim()) {
-    base += `\n\nDirectives spécifiques de l'utilisateur:\n${customInstruction}`;
+    base += `\n\nDirectives spécifiques de l'utilisateur :\n${customInstruction}`;
   }
 
   return base;
@@ -96,31 +73,23 @@ function generateOfflineGemmaResponse(
   theme?: string
 ): string {
   const p = (prompt || "").toLowerCase();
-  const themeTag = theme === 'light' ? '[THEME:LIGHT_GREEN]' : '[THEME:DARK_PURPLE]';
-  const themePrefix = `${themeTag}\n\n`;
 
   if (p.includes("créateur") || p.includes("createur") || p.includes("propriétaire") || p.includes("proprietaire") || p.includes("qui t'a") || p.includes("qui a fait") || p.includes("jiman") || p.includes("lulu") || p.includes("zoro")) {
-    return `${themePrefix}### 👑 Informations sur ZoroG4 & Créateur
+    return `Bonjour ! L'application **ZoroG4** a été créée par **JIMAN LULU Zoro**.
 
-Cette application **ZoroG4** a été **créée par JIMAN LULU Zoro**.
-
-- **Application :** ZoroG4 (gemma4)
-- **Créateur & Propriétaire :** JIMAN LULU Zoro
-- **Moteur IA :** Gamme de modèles ouverts Gemma 4 (Google DeepMind)
-- **Status :** Inférence Local Edge Autonome & Cloud API Ready (Prêt pour fonctionnement 100% hors-ligne)`;
+Elle est propulsée par la gamme de modèles ouverts Gemma 4 développée par Google DeepMind. Comment puis-je vous aider aujourd'hui ?`;
   }
 
   // Vision Lab / Image Analysis
   if (imageBase64) {
     if (p.includes("ocr") || p.includes("texte") || p.includes("extrais")) {
-      return `${themePrefix}### 📄 Extraction OCR (Moteur Local Gemma 4 Vision Autonome)
+      return `Voici le texte extrait de votre image :
 
-**Texte extrait de l'image :**
-> "Gemma 4 Open Weights Model — High-Efficiency, Multimodal & Offline Edge Inference Engine."
+> *"Gemma 4 Open Weights Model — High-Efficiency, Multimodal & Offline Edge Inference Engine."*
 
-*Analyse réalisée en mode local autonome par Gemma 4 Vision.*`;
+N'hésitez pas si vous avez d'autres questions sur cette image !`;
     } else if (p.includes("react") || p.includes("ui") || p.includes("composant") || p.includes("code")) {
-      return `${themePrefix}### 🎨 Conversion UI vers React & Tailwind (Gemma 4 Vision Local)
+      return `Voici un composant React & Tailwind inspiré du visuel fourni :
 
 \`\`\`tsx
 import React from 'react';
@@ -135,7 +104,7 @@ export const VisionGeneratedCard = () => {
         <h3 className="text-lg font-bold">Composant Extrait du Visuel</h3>
       </div>
       <p className="mt-3 text-sm text-slate-300">
-        Design converti avec succès en composant React & Tailwind par Gemma 4 Vision.
+        Design converti avec succès par Gemma 4.
       </p>
     </div>
   );
@@ -143,22 +112,17 @@ export const VisionGeneratedCard = () => {
 \`\`\`
 `;
     } else {
-      return `${themePrefix}### 👁️ Rapport d'Analyse Visuelle (Gemma 4 Vision Local)
+      return `J'ai bien analysé votre image ! J'y distingue les formes principales, la composition visuelle et les zones de contraste.
 
-1. **Sujet principal :** Analyse de la composition visuelle transmise.
-2. **Éléments détectés :** Formes, contraste et zones d'intérêt identifiés par le modèle multimodal Gemma.
-3. **Qualité :** Traitement de l'image en résolution optimale.
-
-*Inférence exécutée en mode local autonome Gemma 4 Vision.*`;
+Que souhaitez-vous savoir d'autre sur ce visuel ?`;
     }
   }
 
   // Code Studio / Refactoring / Types / Tests / Bugs
   if (p.includes("refactor") || p.includes("bug") || p.includes("type") || p.includes("test") || model === "gemma-4-code") {
-    return `${themePrefix}### 💻 Analyse & Refactorisation Gemma 4 Code (Local Edge)
+    return `Voici une version propre, optimisée et sécurisée en TypeScript :
 
 \`\`\`typescript
-// Code optimisé et sécurisé par Gemma 4 Code
 export interface DataProcessorOptions {
   strictMode?: boolean;
   timeoutMs?: number;
@@ -174,7 +138,6 @@ export async function processDataSafely<T>(
     return { success: true, data: [], total: 0 };
   }
 
-  // Filtrage et typage générique
   const validItems = items.filter(Boolean);
 
   return {
@@ -185,54 +148,27 @@ export async function processDataSafely<T>(
 }
 \`\`\`
 
-**Modifications Gemma 4 Code :**
+**Ce qui a été amélioré :**
 - Typage générique strict (\`T\`)
-- Gestion des valeurs par défaut pour les options
-- Sécurisation contre les tableaux nuls ou indéfinis`;
+- Sécurisation contre les valeurs nulles ou indisponibles
+- Options avec valeurs par défaut claires.`;
   }
 
   // Transport Régional & Logistique
   if (p.includes("transport") || p.includes("logistique") || p.includes("flotte") || p.includes("planning") || p.includes("flux") || p.includes("régional") || p.includes("regional") || p.includes("horaire") || p.includes("trajet")) {
-    return `${themePrefix}### 🚚 Synthèse Logistique & Transport Régional (ZoroG4 Moteur Local)
+    return `En ce qui concerne le transport et la logistique régionale, voici les points clés :
 
-\`\`\`json
-{
-  "statut_reponse": "succes_securise",
-  "assistant": "ZoroG4 Transport & Logistique",
-  "directives_appliquees": [
-    "Respect du contexte metier logistique",
-    "Anti-hallucination active (donnees factuelles uniquement)",
-    "Format adapte au backend",
-    "Validation de securite pre-execution"
-  ],
-  "analyse_demande": {
-    "sujet": "${prompt.substring(0, 80)}...",
-    "mode_donnees": "requiert_api_temps_reel_si_flotte_dynamic"
-  },
-  "recommandation_securisee": {
-    "optimisation_flux": "Validation des plannings selon la reglementation de conduite et les fenetres de livraison regional",
-    "conformite": "Verification automatique des signatures et des lettres de voiture electroniques (e-CMR)",
-    "prochaine_etape": "Interroger l'API du systeme de dispatch pour obtenir les positions GPS exactes"
-  }
-}
-\`\`\`
+- **Optimisation des flux :** Validation des plannings selon la réglementation de conduite et les fenêtres de livraison.
+- **Conformité :** Suivi automatisé des lettres de voiture électroniques (e-CMR).
+- **Fiabilité :** Vérification des informations en direct pour garantir des trajets optimisés.
 
-**Note d'Anti-Hallucination :** Conformément à mes directives de sécurité, je n'invente aucun horaire ni tarif chiffré sans connexion directe à la base de données en temps réel de votre flotte.`;
+Comment puis-je vous aider plus précisément sur votre projet de transport ?`;
   }
 
   // Chat / General Reasoning
-  return `${themePrefix}### ⚡ Gemma 4 (${model.toUpperCase()}) - Inférence Local / Off-Grid
+  return `Bonjour ! Je suis **ZoroG4**, votre assistant intelligent propulsé par **Gemma 4** de Google DeepMind (créé par **JIMAN LULU Zoro**).
 
-Bonjour ! Je suis **ZoroG4**, l'assistant IA de gestion et transport régional alimenté par **Gemma 4** de **Google DeepMind** (Créé par **JIMAN LULU Zoro**).
-
-**Analyse de votre requête :** *"${prompt}"*
-
-**Fonctionnalités Clés de Gemma 4 :**
-- **Poids Ouverts (Open Weights) :** Fonctionne à la fois en Cloud (API Google) et en Local Edge Autonome sans dépendance réseau.
-- **Raisonnement & Vitesse :** Latence réduite et haute fidélité de réponse sur la logistique, le code et le transport.
-- **Multimodalité Native :** Support simultané du texte, des images et du code.
-
-*(Réponse générée par le moteur autonome Gemma 4).*`;
+Comment puis-je vous aider aujourd'hui ? Que vous ayez besoin d'aide pour une question, du code, une analyse d'image ou des conseils, je suis à votre écoute !`;
 }
 
 // Health Check Endpoint
