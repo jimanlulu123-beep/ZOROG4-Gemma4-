@@ -25,6 +25,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<StudioTab>('playground');
   const [hasApiKey, setHasApiKey] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   // Theme state: dark or light
   const [theme, setTheme] = useState<AppTheme>(() => {
@@ -601,7 +602,7 @@ Bonjour ! Je suis **ZoroG4**, l'assistant IA de gestion et transport régional a
   };
 
   return (
-    <div className="flex h-screen flex-col bg-slate-100 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100 selection:bg-purple-500/20 selection:text-purple-700 transition-colors duration-200">
+    <div className="flex h-screen h-[100dvh] flex-col bg-slate-100 font-sans text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100 selection:bg-purple-500/20 selection:text-purple-700 transition-colors duration-200">
       <Header
         currentModel={currentModel}
         onModelChange={setCurrentModel}
@@ -609,6 +610,7 @@ Bonjour ! Je suis **ZoroG4**, l'assistant IA de gestion et transport régional a
         hasApiKey={hasApiKey}
         theme={theme}
         onToggleTheme={toggleTheme}
+        onOpenMobileMenu={() => setIsMobileMenuOpen(true)}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -620,6 +622,8 @@ Bonjour ! Je suis **ZoroG4**, l'assistant IA de gestion et transport régional a
           onSelectConversation={setActiveConversationId}
           onNewConversation={handleNewConversation}
           onDeleteConversation={handleDeleteConversation}
+          isOpenMobile={isMobileMenuOpen}
+          onCloseMobile={() => setIsMobileMenuOpen(false)}
         />
 
         <main className="flex flex-1 overflow-hidden">

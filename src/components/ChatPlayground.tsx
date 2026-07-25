@@ -112,16 +112,16 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
   ];
 
   return (
-    <div className="flex flex-1 flex-col h-[calc(100vh-61px)] bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white transition-colors duration-200">
+    <div className="flex flex-1 flex-col h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white transition-colors duration-200 overflow-hidden">
       {/* Parameter Controls Accordion & Actions */}
-      <div className="border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] px-5 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div className="border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] px-3 sm:px-5 py-2 sm:py-2.5 flex flex-wrap items-center justify-between gap-2 sm:gap-3">
         <button
           onClick={() => setShowConfig(!showConfig)}
-          className="flex flex-1 items-center justify-between text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition cursor-pointer min-w-[240px]"
+          className="flex flex-1 items-center justify-between text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition cursor-pointer min-w-[200px]"
         >
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Sliders className="h-4 w-4 text-purple-600 dark:text-purple-400 shrink-0" />
-            <span className="truncate">Hyperparamètres & Instruction Système</span>
+            <span className="truncate text-[11px] sm:text-xs">Paramètres & Instruction</span>
             <span className="hidden md:inline-block rounded-sm bg-slate-100 dark:bg-white/5 px-2 py-0.5 text-[10px] font-mono font-bold text-purple-700 dark:text-purple-300 border border-slate-200 dark:border-white/10">
               Temp: {temperature} | TopP: {topP}
             </span>
@@ -131,11 +131,11 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
           </div>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {onNewChat && (
             <button
               onClick={onNewChat}
-              className="flex items-center gap-1.5 rounded-sm bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-500 dark:hover:bg-purple-600 dark:text-black px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition shadow-xs cursor-pointer"
+              className="flex items-center gap-1.5 rounded-sm bg-purple-600 hover:bg-purple-700 text-white dark:bg-purple-500 dark:hover:bg-purple-600 dark:text-black px-2.5 sm:px-3 py-1.5 text-[10px] font-black uppercase tracking-wider transition shadow-xs cursor-pointer min-h-[36px]"
               title="Nouvelle conversation"
             >
               <Plus className="h-3.5 w-3.5" />
@@ -145,7 +145,7 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
           {conversation?.messages?.length > 0 && (
             <button
               onClick={onClearMessages}
-              className="flex items-center gap-1.5 rounded-sm bg-slate-100 dark:bg-white/5 hover:bg-rose-100 dark:hover:bg-rose-950/50 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-white/10 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-white/60 transition cursor-pointer"
+              className="flex items-center gap-1.5 rounded-sm bg-slate-100 dark:bg-white/5 hover:bg-rose-100 dark:hover:bg-rose-950/50 hover:text-rose-600 dark:hover:text-rose-400 border border-slate-200 dark:border-white/10 px-2 sm:px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-white/60 transition cursor-pointer min-h-[36px]"
               title="Vider la discussion actuelle"
             >
               <Trash2 className="h-3.5 w-3.5" />
@@ -207,33 +207,33 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
       </div>
 
       {/* Messages List Area */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
         {conversation.messages.length === 0 ? (
-          <div className="mx-auto my-10 max-w-2xl text-center space-y-8">
-            <div className="inline-block bg-purple-600 text-white dark:text-black px-3 py-1 font-black text-xs uppercase tracking-widest rounded-xs shadow-xs">
+          <div className="mx-auto my-4 sm:my-10 max-w-2xl text-center space-y-4 sm:space-y-8">
+            <div className="inline-block bg-purple-600 text-white dark:text-black px-2.5 py-1 font-black text-[10px] sm:text-xs uppercase tracking-widest rounded-xs shadow-xs">
               Gemma-4 Inference Engine
             </div>
             <div>
-              <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-slate-900 dark:text-white leading-tight">
+              <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-slate-900 dark:text-white leading-tight">
                 Gemma <span className="text-purple-600 dark:text-purple-400">Four.</span>
               </h1>
-              <p className="mt-3 text-xs font-mono tracking-widest uppercase text-slate-500 dark:text-white/50 max-w-lg mx-auto">
+              <p className="mt-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase text-slate-500 dark:text-white/50 max-w-lg mx-auto px-2">
                 Inférence conversationnelle haute fidélité & raisonnement multimodal.
               </p>
             </div>
 
             {/* Quick Prompts Grid */}
-            <div className="grid gap-3 text-left sm:grid-cols-2 pt-4">
+            <div className="grid gap-2.5 text-left grid-cols-1 sm:grid-cols-2 pt-2 sm:pt-4">
               {quickPrompts.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => setPrompt(item.text)}
-                  className="group flex flex-col justify-between rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-4 text-left transition hover:border-purple-500 hover:shadow-xs dark:hover:bg-white/10 cursor-pointer"
+                  className="group flex flex-col justify-between rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-3 sm:p-4 text-left transition hover:border-purple-500 hover:shadow-xs dark:hover:bg-white/10 cursor-pointer min-h-[75px]"
                 >
-                  <span className="text-xs font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-white">
+                  <span className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-white">
                     {item.label}
                   </span>
-                  <span className="mt-2 line-clamp-2 text-xs font-mono text-slate-600 dark:text-white/60">
+                  <span className="mt-1.5 line-clamp-2 text-[11px] font-mono text-slate-600 dark:text-white/60">
                     "{item.text}"
                   </span>
                 </button>
@@ -244,18 +244,18 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
           conversation.messages.map((msg) => (
             <div
               key={msg.id}
-              className={`flex gap-3 max-w-4xl mx-auto ${
+              className={`flex gap-2 sm:gap-3 max-w-4xl mx-auto ${
                 msg.role === 'user' ? 'justify-end' : 'justify-start'
               }`}
             >
               {msg.role === 'assistant' && (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-xs shadow-xs">
+                <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-[10px] sm:text-xs shadow-xs mt-0.5">
                   G4
                 </div>
               )}
 
               <div
-                className={`group relative rounded-sm p-5 text-xs sm:text-sm leading-relaxed max-w-[88%] border ${
+                className={`group relative rounded-sm p-3.5 sm:p-5 text-xs sm:text-sm leading-relaxed max-w-[92%] sm:max-w-[88%] border overflow-hidden ${
                   msg.role === 'user'
                     ? 'bg-purple-600 text-white border-purple-600 dark:bg-purple-600/20 dark:border-purple-500 dark:text-white'
                     : 'bg-white dark:bg-[#0a0a0a] border-slate-200 dark:border-white/10 text-slate-800 dark:text-white/90 shadow-xs'
@@ -263,20 +263,20 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
               >
                 {/* User uploaded image preview if present */}
                 {msg.image && (
-                  <div className="mb-3 overflow-hidden rounded-sm border border-slate-200 dark:border-white/20">
+                  <div className="mb-2.5 overflow-hidden rounded-sm border border-slate-200 dark:border-white/20">
                     <img
                       src={msg.image}
                       alt="Pièce jointe"
-                      className="max-h-60 w-auto object-cover"
+                      className="max-h-48 sm:max-h-60 w-auto object-cover"
                     />
                   </div>
                 )}
 
                 {/* Content */}
                 {msg.role === 'user' ? (
-                  <p className="whitespace-pre-wrap font-sans text-white">{msg.content}</p>
+                  <p className="whitespace-pre-wrap font-sans text-white text-xs sm:text-sm">{msg.content}</p>
                 ) : (
-                  <div className="markdown-body prose dark:prose-invert prose-sm max-w-none font-sans text-slate-800 dark:text-slate-100">
+                  <div className="markdown-body prose dark:prose-invert prose-xs sm:prose-sm max-w-none font-sans text-slate-800 dark:text-slate-100 overflow-x-auto">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {msg.content || (msg.isStreaming ? 'Calcul de la réponse Gemma 4...' : '')}
                     </ReactMarkdown>
@@ -285,22 +285,22 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 
                 {/* Metrics / Copy Toolbar */}
                 {msg.role === 'assistant' && (
-                  <div className="mt-4 flex items-center justify-between border-t border-slate-100 dark:border-white/10 pt-2.5 text-[10px] font-mono text-slate-400 dark:text-white/40">
-                    <div className="flex items-center gap-3">
+                  <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-white/10 pt-2 text-[10px] font-mono text-slate-400 dark:text-white/40">
+                    <div className="flex items-center gap-2">
                       {msg.metrics && (
-                        <span className="flex items-center gap-1 rounded-xs bg-purple-50 dark:bg-white/5 px-2 py-0.5 text-purple-700 dark:text-purple-400 font-bold border border-purple-200 dark:border-white/5">
+                        <span className="flex items-center gap-1 rounded-xs bg-purple-50 dark:bg-white/5 px-1.5 py-0.5 text-purple-700 dark:text-purple-400 font-bold border border-purple-200 dark:border-white/5">
                           <Zap className="h-3 w-3 text-purple-600 dark:text-purple-400" />
                           {msg.metrics.latencyMs}ms
                         </span>
                       )}
-                      <span className="uppercase tracking-widest text-slate-500 dark:text-white/50">
+                      <span className="uppercase tracking-widest text-slate-500 dark:text-white/50 truncate max-w-[110px] sm:max-w-none">
                         {msg.metrics?.gemmaAlias || currentModel}
                       </span>
                     </div>
 
                     <button
                       onClick={() => handleCopy(msg.content, msg.id)}
-                      className="flex items-center gap-1 text-slate-500 dark:text-white/50 hover:text-purple-600 dark:hover:text-white transition uppercase tracking-widest font-bold cursor-pointer"
+                      className="flex items-center gap-1 text-slate-500 dark:text-white/50 hover:text-purple-600 dark:hover:text-white transition uppercase tracking-widest font-bold cursor-pointer p-1"
                       title="Copier la réponse"
                     >
                       {copiedId === msg.id ? (
@@ -320,8 +320,8 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
               </div>
 
               {msg.role === 'user' && (
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white font-mono font-bold text-xs border border-slate-300 dark:border-white/10">
-                  <User className="h-4 w-4" />
+                <div className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-sm bg-slate-200 dark:bg-white/10 text-slate-800 dark:text-white font-mono font-bold text-xs border border-slate-300 dark:border-white/10 mt-0.5">
+                  <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </div>
               )}
             </div>
@@ -332,12 +332,12 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
 
       {/* Image Preview Box before submitting */}
       {selectedImage && (
-        <div className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-3 px-6">
+        <div className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-2.5 px-4 sm:px-6">
           <div className="relative inline-block">
             <img
               src={selectedImage}
               alt="Aperçu"
-              className="h-16 w-16 rounded-sm object-cover border border-purple-500"
+              className="h-14 w-14 sm:h-16 sm:w-16 rounded-sm object-cover border border-purple-500"
             />
             <button
               onClick={() => setSelectedImage(null)}
@@ -350,9 +350,9 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
       )}
 
       {/* Input Form Bar */}
-      <div className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-4">
+      <div className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-2.5 sm:p-4">
         <form onSubmit={handleSubmit} className="mx-auto max-w-4xl">
-          <div className="relative flex items-center rounded-sm border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-black p-2 focus-within:border-purple-500 transition">
+          <div className="relative flex items-center rounded-sm border border-slate-300 dark:border-white/15 bg-slate-50 dark:bg-black p-1.5 sm:p-2 focus-within:border-purple-500 transition">
             {/* Attachment Button */}
             <input
               type="file"
@@ -364,7 +364,7 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm text-slate-400 dark:text-white/50 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-purple-600 dark:hover:text-purple-400 transition cursor-pointer"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-sm text-slate-400 dark:text-white/50 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-purple-600 dark:hover:text-purple-400 transition cursor-pointer"
               title="Joindre une image (Multimodal)"
             >
               <Paperclip className="h-4 w-4" />
@@ -382,14 +382,14 @@ export const ChatPlayground: React.FC<ChatPlaygroundProps> = ({
               }}
               placeholder="Envoyer une requête à Gemma 4..."
               rows={1}
-              className="flex-1 bg-transparent px-3 py-1.5 text-xs sm:text-sm font-sans text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30 focus:outline-none resize-none max-h-32"
+              className="flex-1 bg-transparent px-2.5 sm:px-3 py-1.5 text-xs sm:text-sm font-sans text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30 focus:outline-none resize-none max-h-32 min-h-[38px]"
             />
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={(!prompt.trim() && !selectedImage) || isLoading}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-purple-600 text-white hover:bg-purple-500 dark:bg-white dark:text-black dark:hover:bg-purple-500 disabled:opacity-30 transition font-black cursor-pointer shadow-xs"
+              className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-sm bg-purple-600 text-white hover:bg-purple-500 dark:bg-white dark:text-black dark:hover:bg-purple-500 disabled:opacity-30 transition font-black cursor-pointer shadow-xs ml-1"
             >
               <Send className="h-4 w-4" />
             </button>

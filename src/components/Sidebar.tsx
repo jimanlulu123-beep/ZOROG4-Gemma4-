@@ -10,6 +10,7 @@ import {
   Cpu,
   Info,
   Sparkles,
+  X,
 } from 'lucide-react';
 import { StudioTab, ChatConversation } from '../types';
 
@@ -21,6 +22,8 @@ interface SidebarProps {
   onSelectConversation: (id: string) => void;
   onNewConversation: () => void;
   onDeleteConversation: (id: string) => void;
+  isOpenMobile?: boolean;
+  onCloseMobile?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -31,6 +34,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onSelectConversation,
   onNewConversation,
   onDeleteConversation,
+  isOpenMobile = false,
+  onCloseMobile,
 }) => {
   const navItems = [
     {
@@ -77,25 +82,48 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
   ];
 
-  return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#050505] text-slate-800 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+  const handleTabClick = (tab: StudioTab) => {
+    onSelectTab(tab);
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const handleConvClick = (id: string) => {
+    onSelectConversation(id);
+    onSelectTab('playground');
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const handleNewChatClick = () => {
+    onNewConversation();
+    onSelectTab('playground');
+    if (onCloseMobile) onCloseMobile();
+  };
+
+  const sidebarInnerContent = (
+    <div className="flex flex-1 flex-col h-full overflow-hidden font-sans">
       {/* Primary Action: New Chat Button */}
-      <div className="p-3 border-b border-slate-200 dark:border-white/10">
+      <div className="p-3 border-b border-slate-200 dark:border-white/10 flex items-center justify-between gap-2">
         <button
-          onClick={() => {
-            onNewConversation();
-            onSelectTab('playground');
-          }}
-          className="flex w-full items-center justify-center gap-2 rounded-sm bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-black text-xs uppercase tracking-wider py-2.5 px-4 shadow-md transition cursor-pointer"
+          onClick={handleNewChatClick}
+          className="flex flex-1 items-center justify-center gap-2 rounded-sm bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-black text-xs uppercase tracking-wider py-2.5 px-4 shadow-md transition cursor-pointer min-h-[42px]"
         >
           <Plus className="h-4 w-4 stroke-[3]" />
           <span>Nouveau Chat</span>
         </button>
+        {onCloseMobile && (
+          <button
+            onClick={onCloseMobile}
+            className="md:hidden flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-slate-200 dark:border-white/10 bg-slate-200/60 dark:bg-white/10 text-slate-700 dark:text-white hover:bg-slate-300 dark:hover:bg-white/20 transition cursor-pointer"
+            title="Fermer le menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       {/* Studio Navigation Section */}
-      <div className="p-4 border-b border-slate-200 dark:border-white/10">
-        <p className="px-2 pb-3 text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-white/40">
+      <div className="p-3 sm:p-4 border-b border-slate-200 dark:border-white/10">
+        <p className="px-2 pb-2.5 text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-white/40">
           // Espaces Gemma-4
         </p>
         <nav className="space-y-1">
@@ -105,8 +133,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
             return (
               <button
                 key={item.id}
-                onClick={() => onSelectTab(item.id)}
-                className={`group flex w-full items-center justify-between rounded-sm px-3 py-2 text-xs font-bold transition uppercase tracking-wider cursor-pointer ${
+                onClick={() => handleTabClick(item.id)}
+                className={`group flex w-full items-center justify-between rounded-sm px-3 py-2.5 text-xs font-bold transition uppercase tracking-wider cursor-pointer min-h-[42px] ${
                   isActive
                     ? 'bg-purple-600 text-white dark:text-black shadow-md font-black'
                     : 'text-slate-700 dark:text-white/70 hover:bg-slate-200/70 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
@@ -114,7 +142,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 <div className="flex items-center gap-2.5">
                   <Icon
-                    className={`h-4 w-4 transition ${
+                    className={`h-4 w-4 shrink-0 transition ${
                       isActive ? 'text-white dark:text-black' : 'text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-white'
                     }`}
                   />
@@ -136,16 +164,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Conversations History */}
-      <div className="flex flex-1 flex-col overflow-hidden p-4">
-        <div className="mb-3 flex items-center justify-between px-1">
+      <div className="flex flex-1 flex-col overflow-hidden p-3 sm:p-4">
+        <div className="mb-2.5 flex items-center justify-between px-1">
           <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-white/40">
             // HISTORIQUE ({conversations.length})
           </p>
           <button
-            onClick={onNewConversation}
-            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition cursor-pointer"
+            onClick={handleNewChatClick}
+            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition cursor-pointer p-1"
           >
-            <Plus className="h-3 w-3" />
+            <Plus className="h-3.5 w-3.5" />
             <span>Nouveau</span>
           </button>
         </div>
@@ -161,11 +189,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               return (
                 <div
                   key={conv.id}
-                  onClick={() => {
-                    onSelectConversation(conv.id);
-                    onSelectTab('playground');
-                  }}
-                  className={`group relative flex items-center justify-between rounded-sm p-2.5 text-xs transition cursor-pointer border ${
+                  onClick={() => handleConvClick(conv.id)}
+                  className={`group relative flex items-center justify-between rounded-sm p-2.5 text-xs transition cursor-pointer border min-h-[42px] ${
                     isActive
                       ? 'bg-purple-100 dark:bg-white/10 text-slate-900 dark:text-white border-purple-400 dark:border-purple-500/50 font-bold'
                       : 'text-slate-600 dark:text-white/60 border-transparent hover:bg-slate-200/50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
@@ -180,7 +205,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       e.stopPropagation();
                       onDeleteConversation(conv.id);
                     }}
-                    className="absolute right-2 opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-rose-600 dark:text-white/40 dark:hover:text-rose-400 transition"
+                    className="absolute right-2 opacity-80 md:opacity-0 md:group-hover:opacity-100 p-1.5 text-slate-400 hover:text-rose-600 dark:text-white/40 dark:hover:text-rose-400 transition"
                     title="Supprimer"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
@@ -193,7 +218,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Footer Specs Box */}
-      <div className="m-4 rounded-sm border-l-2 border-purple-600 dark:border-purple-500 bg-slate-200/60 dark:bg-white/5 p-3.5 text-xs">
+      <div className="m-3 sm:m-4 rounded-sm border-l-2 border-purple-600 dark:border-purple-500 bg-slate-200/60 dark:bg-white/5 p-3 text-xs shrink-0">
         <div className="flex items-center gap-2 font-black uppercase tracking-wider text-slate-900 dark:text-white">
           <Cpu className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           <span>ZoroG4 • gemma4</span>
@@ -202,7 +227,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
           Créé par JIMAN LULU Zoro
         </p>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar (hidden on mobile) */}
+      <aside className="hidden md:flex w-64 shrink-0 flex-col border-r border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#050505] text-slate-800 dark:text-white h-[calc(100vh-61px)] transition-colors duration-200">
+        {sidebarInnerContent}
+      </aside>
+
+      {/* Mobile Drawer Overlay */}
+      {isOpenMobile && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            onClick={onCloseMobile}
+            className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity"
+            aria-hidden="true"
+          />
+
+          {/* Drawer Content */}
+          <div className="relative w-[280px] xs:w-80 max-w-[85vw] h-full flex flex-col bg-slate-50 dark:bg-[#080808] text-slate-800 dark:text-white border-r border-slate-200 dark:border-white/10 shadow-2xl z-10">
+            {sidebarInnerContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

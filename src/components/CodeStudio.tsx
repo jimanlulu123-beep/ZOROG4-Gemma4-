@@ -98,20 +98,20 @@ async function processOrder(orderId, user) {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
-      <div className="mx-auto max-w-6xl space-y-6">
+    <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+      <div className="mx-auto max-w-6xl space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-5">
           <div>
-            <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-xs shadow-xs">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-xs shadow-xs">
                 G4
               </span>
-              <h2 className="text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+              <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
                 Code <span className="text-purple-600 dark:text-purple-400">Studio.</span>
               </h2>
             </div>
-            <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-white/40">
+            <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 dark:text-white/40">
               Refactorisation, Typage Strict & Génération de Tests
             </p>
           </div>
@@ -123,7 +123,7 @@ async function processOrder(orderId, user) {
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              className="rounded-sm border border-slate-300 dark:border-white/15 bg-white dark:bg-[#0a0a0a] px-3 py-1.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white focus:outline-none cursor-pointer shadow-xs"
+              className="rounded-sm border border-slate-300 dark:border-white/15 bg-white dark:bg-[#0a0a0a] px-2.5 py-1 text-xs font-mono font-bold uppercase tracking-wider text-slate-900 dark:text-white focus:outline-none cursor-pointer shadow-xs"
             >
               <option value="typescript" className="bg-white dark:bg-[#0a0a0a] text-slate-900 dark:text-white">TypeScript / React</option>
               <option value="javascript" className="bg-white dark:bg-[#0a0a0a] text-slate-900 dark:text-white">JavaScript</option>
@@ -135,11 +135,11 @@ async function processOrder(orderId, user) {
         </div>
 
         {/* Action ToolBar */}
-        <div className="flex flex-wrap gap-2 rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-3 shadow-xs">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-2 sm:p-3 shadow-xs">
           <button
             onClick={() => executeAction('refactor')}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded-sm bg-purple-600 px-4 py-2 text-xs font-black uppercase tracking-wider text-white dark:text-black hover:bg-purple-500 disabled:opacity-30 transition shadow-xs cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm bg-purple-600 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-black uppercase tracking-wider text-white dark:text-black hover:bg-purple-500 disabled:opacity-30 transition shadow-xs cursor-pointer min-h-[38px]"
           >
             <Sparkles className="h-3.5 w-3.5" />
             <span>Refactoriser</span>
@@ -148,7 +148,7 @@ async function processOrder(orderId, user) {
           <button
             onClick={() => executeAction('bugfix')}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer min-h-[38px]"
           >
             <Bug className="h-3.5 w-3.5 text-rose-500 dark:text-rose-400" />
             <span>Détecter Bugs</span>
@@ -157,7 +157,7 @@ async function processOrder(orderId, user) {
           <button
             onClick={() => executeAction('types')}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer min-h-[38px]"
           >
             <ShieldCheck className="h-3.5 w-3.5 text-purple-600 dark:text-purple-400" />
             <span>Types TS</span>
@@ -166,7 +166,7 @@ async function processOrder(orderId, user) {
           <button
             onClick={() => executeAction('tests')}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer min-h-[38px]"
           >
             <TestTube className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Tests Unitaires</span>
@@ -175,7 +175,7 @@ async function processOrder(orderId, user) {
           <button
             onClick={() => executeAction('explain')}
             disabled={loading}
-            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer"
+            className="flex items-center gap-1.5 rounded-sm border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white hover:bg-purple-600 hover:text-white dark:hover:bg-purple-600 dark:hover:text-black disabled:opacity-30 transition cursor-pointer min-h-[38px]"
           >
             <FileCode2 className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
             <span>Explication</span>

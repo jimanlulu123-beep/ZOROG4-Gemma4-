@@ -64,19 +64,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ hasApiKey }) => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
-      <div className="mx-auto max-w-3xl space-y-6">
+    <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+      <div className="mx-auto max-w-3xl space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="border-b border-slate-200 dark:border-white/10 pb-5">
-          <div className="flex items-center gap-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-purple-600 text-white font-black text-xs shadow-xs">
+        <div className="border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-5">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-sm bg-purple-600 text-white font-black text-xs shadow-xs">
               G4
             </span>
-            <h2 className="text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
               Guide des <span className="text-purple-600 dark:text-purple-400">Modules & Informations.</span>
             </h2>
           </div>
-          <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-white/40">
+          <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 dark:text-white/40">
             ZoroG4 (gemma4) — Architecture, Créateur & Fonctionnalités
           </p>
         </div>

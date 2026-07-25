@@ -134,10 +134,10 @@ export const AboutGemmaFour: React.FC = () => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+      <div className="mx-auto max-w-5xl space-y-6 sm:space-y-8">
         {/* Banner Header */}
-        <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 sm:p-8 shadow-xs space-y-4">
+        <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-4 sm:p-8 shadow-xs space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-600 text-white font-black text-lg shadow-md shadow-purple-600/30">

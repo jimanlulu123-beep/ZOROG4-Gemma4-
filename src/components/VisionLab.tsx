@@ -85,8 +85,8 @@ export const VisionLab: React.FC<VisionLabProps> = ({ onAnalyzeImage }) => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+      <div className="mx-auto max-w-5xl space-y-4 sm:space-y-6">
         {/* Header Title */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/10 pb-5">
           <div>

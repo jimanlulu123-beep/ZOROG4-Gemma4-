@@ -66,30 +66,30 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({ onSelectPreset }) 
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100vh-61px)] font-sans transition-colors duration-200">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white h-[calc(100dvh-57px)] sm:h-[calc(100vh-61px)] font-sans transition-colors duration-200">
+      <div className="mx-auto max-w-5xl space-y-4 sm:space-y-6">
         {/* Title */}
-        <div className="border-b border-slate-200 dark:border-white/10 pb-5">
-          <div className="flex items-center gap-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-xs shadow-xs">
+        <div className="border-b border-slate-200 dark:border-white/10 pb-4 sm:pb-5">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-sm bg-purple-600 text-white dark:text-black font-black text-xs shadow-xs">
               G4
             </span>
-            <h2 className="text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
               Prompt <span className="text-purple-600 dark:text-purple-400">Library.</span>
             </h2>
           </div>
-          <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 dark:text-white/40">
+          <p className="mt-1 text-[10px] font-mono uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 dark:text-white/40">
             Presets & Modèles d'Ingénierie de Prompts Optimisés
           </p>
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`rounded-sm px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider transition cursor-pointer ${
+              className={`rounded-sm px-2.5 sm:px-3.5 py-1.5 text-[10px] font-black uppercase tracking-wider transition cursor-pointer min-h-[36px] ${
                 activeCategory === cat.id
                   ? 'bg-purple-600 text-white dark:text-black shadow-xs'
                   : 'bg-white dark:bg-[#0a0a0a] text-slate-700 dark:text-white/70 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/10'
@@ -101,14 +101,14 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({ onSelectPreset }) 
         </div>
 
         {/* Presets Grid */}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
           {filteredPresets.map((preset) => {
             const IconComponent = getCategoryIcon(preset.category, preset.iconName);
             return (
               <div
                 key={preset.id}
                 onClick={() => onSelectPreset(preset)}
-                className="group relative flex flex-col justify-between rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-5 transition hover:border-purple-500 cursor-pointer shadow-xs"
+                className="group relative flex flex-col justify-between rounded-sm border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-3.5 sm:p-5 transition hover:border-purple-500 cursor-pointer shadow-xs"
               >
                 <div>
                   <div className="flex items-start justify-between gap-3">
