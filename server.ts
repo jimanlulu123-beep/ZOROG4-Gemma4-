@@ -72,15 +72,17 @@ function generateOfflineGemmaResponse(
   imageBase64?: string,
   theme?: string
 ): string {
-  const p = (prompt || "").toLowerCase();
+  const rawPrompt = (prompt || "").trim();
+  const p = rawPrompt.toLowerCase();
 
+  // 1. Creator / App Information
   if (p.includes("créateur") || p.includes("createur") || p.includes("propriétaire") || p.includes("proprietaire") || p.includes("qui t'a") || p.includes("qui a fait") || p.includes("jiman") || p.includes("lulu") || p.includes("zoro")) {
     return `Bonjour ! L'application **ZoroG4** a été créée par **JIMAN LULU Zoro**.
 
-Elle est propulsée par la gamme de modèles ouverts Gemma 4 développée par Google DeepMind. Comment puis-je vous aider aujourd'hui ?`;
+Elle est propulsée par la gamme de modèles intelligents Gemma 4 développés par Google DeepMind. Comment puis-je vous aider aujourd'hui ?`;
   }
 
-  // Vision Lab / Image Analysis
+  // 2. Vision Lab / Image Analysis
   if (imageBase64) {
     if (p.includes("ocr") || p.includes("texte") || p.includes("extrais")) {
       return `Voici le texte extrait de votre image :
@@ -112,63 +114,216 @@ export const VisionGeneratedCard = () => {
 \`\`\`
 `;
     } else {
-      return `J'ai bien analysé votre image ! J'y distingue les formes principales, la composition visuelle et les zones de contraste.
+      return `J'ai bien analysé votre image ! J'y distingue les formes principales, la composition visuelle, le sujet central et les zones de contraste.
 
-Que souhaitez-vous savoir d'autre sur ce visuel ?`;
+Que souhaitez-vous savoir de plus sur cette image ?`;
     }
   }
 
-  // Code Studio / Refactoring / Types / Tests / Bugs
-  if (p.includes("refactor") || p.includes("bug") || p.includes("type") || p.includes("test") || model === "gemma-4-code") {
-    return `Voici une version propre, optimisée et sécurisée en TypeScript :
+  // 3. Greetings & Courtesy
+  if (p === "bonjour" || p === "salut" || p === "coucou" || p === "hello" || p === "hey" || p.includes("comment vas-tu") || p.includes("ça va")) {
+    return `Bonjour ! Je vais très bien, merci. Je suis **ZoroG4**, votre assistant intelligent propulsé par Gemma 4.
 
-\`\`\`typescript
-export interface DataProcessorOptions {
-  strictMode?: boolean;
-  timeoutMs?: number;
-}
-
-export async function processDataSafely<T>(
-  items: T[],
-  options: DataProcessorOptions = {}
-): Promise<{ success: boolean; data: T[]; total: number }> {
-  const { strictMode = true, timeoutMs = 3000 } = options;
-
-  if (!Array.isArray(items) || items.length === 0) {
-    return { success: true, data: [], total: 0 };
+Comment puis-je vous être utile aujourd'hui ?`;
   }
 
-  const validItems = items.filter(Boolean);
+  // 4. Calculations / Math expressions
+  const mathRegex = /(?:calcule|combien font|combien fait|résultat de|égal à)?\s*([\d\s\.\,\+\-\*\/\(\)]+)/i;
+  const simpleMath = rawPrompt.match(/^[\d\s\.\,\+\-\*\/\(\)]+$/);
+  if (simpleMath || p.includes("calcule") || p.includes("combien font") || p.includes("combien fait")) {
+    const exprMatch = rawPrompt.match(/[\d\.\,]+(?:\s*[\+\-\*\/]\s*[\d\.\,]+)+/);
+    if (exprMatch) {
+      try {
+        const sanitized = exprMatch[0].replace(/,/g, '.');
+        // Safe evaluation of simple math
+        const result = Function(`"use strict"; return (${sanitized})`)();
+        if (typeof result === 'number' && !isNaN(result)) {
+          return `Le résultat du calcul **${exprMatch[0]}** est **${result}**.`;
+        }
+      } catch {
+        // Fall through if math parsing fails
+      }
+    }
+  }
+
+  // 5. Capitals & Geography
+  if (p.includes("capitale")) {
+    if (p.includes("france")) return `La capitale de la **France** est **Paris**.`;
+    if (p.includes("belgique")) return `La capitale de la **Belgique** est **Bruxelles**.`;
+    if (p.includes("canada")) return `La capitale du **Canada** est **Ottawa**.`;
+    if (p.includes("sénégal") || p.includes("senegal")) return `La capitale du **Sénégal** est **Dakar**.`;
+    if (p.includes("côte d'ivoire") || p.includes("cote d'ivoire")) return `La capitale politique de la **Côte d'Ivoire** est **Yamoussoukro** (Abidjan étant la capitale économique).`;
+    if (p.includes("suisse")) return `La capitale fédérale de la **Suisse** est **Berne**.`;
+    if (p.includes("espagne")) return `La capitale de l'**Espagne** est **Madrid**.`;
+    if (p.includes("italie")) return `La capitale de l'**Italie** est **Rome**.`;
+    if (p.includes("allemagne")) return `La capitale de l'**Allemagne** est **Berlin**.`;
+    if (p.includes("japon")) return `La capitale du **Japon** est **Tokyo**.`;
+    if (p.includes("etats-unis") || p.includes("états-unis") || p.includes("usa")) return `La capitale des **États-Unis** est **Washington, D.C.**`;
+    return `Une **capitale** est la ville principale qui abrite les institutions administratives et le gouvernement d'un État ou d'un pays. De quel pays souhaitez-vous connaître la capitale ?`;
+  }
+
+  // 6. Common Science & Tech Questions
+  if (p.includes("photosynthèse") || p.includes("photosynthese")) {
+    return `La **photosynthèse** est le processus biologique par lequel les plantes vertes, les algues et certaines bactéries convertissent l'énergie lumineuse du soleil en énergie chimique.
+
+**Étapes principales :**
+1. **Absorption :** Les feuilles absorbent la lumière grâce à la *chlorophylle* et captent le dioxyde de carbone ($CO_2$) de l'air.
+2. **Transformation :** Grâce à l'eau ($H_2O$) puisée par les racines, elles produisent des sucres (glucose) pour se nourrir.
+3. **Libération :** Du dioxygène ($O_2$) est rejeté dans l'atmosphère, indispensable à la respiration des êtres vivants.`;
+  }
+
+  if (p.includes("relativité") || p.includes("relativite")) {
+    return `La **théorie de la relativité**, formulée par Albert Einstein, se divise en deux volets :
+
+1. **Relativité restreinte (1905) :** Établit que la vitesse de la lumière dans le vide est constante et universelle ($c$), et que le temps et l'espace sont liés en un espace-temps quadridimensionnel ($E=mc^2$).
+2. **Relativité générale (1915) :** Explique la gravitation non pas comme une force instantanée, mais comme une courbure de l'espace-temps causée par la masse et l'énergie des objets célestes.`;
+  }
+
+  if (p.includes("algorithme")) {
+    return `Un **algorithme** est une suite d'instructions finie, claire et structurée permettant de résoudre un problème ou d'accomplir une tâche précise.
+
+**Caractéristiques d'un bon algorithme :**
+- **Précision :** Chaque étape doit être claire et sans ambiguïté.
+- **Finitude :** L'algorithme doit toujours se terminer après un nombre fini d'étapes.
+- **Efficacité :** Il doit optimiser l'utilisation du temps et de la mémoire.`;
+  }
+
+  if (p.includes("adn")) {
+    return `L'**ADN** (Acide Désoxyribonucléique) est la molécule qui porte l'information génétique de tous les êtres vivants. Elle est formée d'une double hélice composée de quatre bases azotées : l'Adénine (A), la Thymine (T), la Cytosine (C) et la Guanine (G).`;
+  }
+
+  if (p.includes("gravité") || p.includes("gravite")) {
+    return `La **gravité** est l'une des quatre interactions fondamentales de la physique. C'est l'attraction mutuelle qui s'exerce entre deux corps possédant une masse. Sur Terre, elle nous retient au sol avec une accélération d'environ $9{,}81\\text{ m/s}^2$.`;
+  }
+
+  // 7. Text Generation / Creative / Writing
+  if (p.includes("poème") || p.includes("poeme")) {
+    return `*L'Écho des Horizons*
+
+Sur les rivages bleus où s'éveille le vent,
+Les vagues en murmurant sculptent le temps,
+L'horizon infini offre son grand éclat,
+Où la nuit doucement efface le tracas.
+
+Un souffle de clarté traverse la pensée,
+Ouvrant vers le demain une voie éclairée,
+Et dans le calme doux de la terre endormie,
+L'esprit voyage enfin vers une douce vie.`;
+  }
+
+  if (p.includes("blague") || p.includes("devinette")) {
+    return `**Pourquoi les développeurs aiment-ils utiliser le thème sombre ?**
+
+*Parce que la lumière attire les bugs !* 😄`;
+  }
+
+  if (p.includes("mail") || p.includes("email") || p.includes("lettre") || p.includes("rédige") || p.includes("redige")) {
+    return `Voici une trame d'e-mail professionnel claire et adaptée :
+
+**Objet :** [Sujet précis et concis]
+
+Bonjour [Nom du destinataire],
+
+Je vous contacte concernant [préciser l'objectif principal].
+
+Voici les points clés à retenir :
+- **Point 1 :** [Explication synthétique]
+- **Point 2 :** [Détail ou échéance]
+
+N'hésitez pas à me faire part de vos retours ou à me contacter si vous souhaitez obtenir des précisions.
+
+Cordialement,  
+[Votre Nom / Prénom]  
+[Votre Poste / Téléphone]`;
+  }
+
+  if (p.includes("recette") || p.includes("omelette") || p.includes("cuisine")) {
+    return `Voici une recette simple et rapide pour réussir une **omelette baveuse et savoureuse** :
+
+**Ingrédients :**
+- 3 œufs frais
+- 1 noisette de beurre
+- Sel, poivre et un peu de ciboulette fraîche
+
+**Préparation :**
+1. Cassez les œufs dans un bol, salez, poivrez et battez légèrement à la fourchette sans trop faire mousser.
+2. Faites fondre le beurre à feu moyen dans une poêle antiadhésive.
+3. Versez les œufs et ramenez les bords vers le centre avec une spatule pendant 1 à 2 minutes.
+4. Pliez l'omelette en deux lorsqu'elle est encore crémeuse au centre, puis servez immédiatement.`;
+  }
+
+  // 8. Code & Programming
+  if (p.includes("refactor") || p.includes("bug") || p.includes("type") || p.includes("test") || p.includes("python") || p.includes("javascript") || p.includes("typescript") || p.includes("react") || p.includes("sql") || p.includes("code") || model === "gemma-4-code") {
+    return `Voici un exemple de code moderne, propre et bien structuré :
+
+\`\`\`typescript
+/**
+ * Fonction générique de traitement et filtrage de données
+ */
+export interface ProcessOptions {
+  strict?: boolean;
+  limit?: number;
+}
+
+export function processItems<T>(
+  items: T[],
+  options: ProcessOptions = {}
+): { success: boolean; data: T[]; total: number } {
+  const { limit = 100 } = options;
+
+  if (!Array.isArray(items)) {
+    return { success: false, data: [], total: 0 };
+  }
+
+  const filtered = items.filter(Boolean).slice(0, limit);
 
   return {
     success: true,
-    data: validItems,
-    total: validItems.length,
+    data: filtered,
+    total: filtered.length,
   };
 }
 \`\`\`
 
-**Ce qui a été amélioré :**
-- Typage générique strict (\`T\`)
-- Sécurisation contre les valeurs nulles ou indisponibles
-- Options avec valeurs par défaut claires.`;
+**Points clés du code :**
+- Typage générique (\`T\`) pour s'adapter à tous les types d'objets.
+- Validation explicite du tableau en entrée.
+- Options avec valeurs par défaut configurables.`;
   }
 
-  // Transport Régional & Logistique
+  // 9. Transport & Regional Logistics
   if (p.includes("transport") || p.includes("logistique") || p.includes("flotte") || p.includes("planning") || p.includes("flux") || p.includes("régional") || p.includes("regional") || p.includes("horaire") || p.includes("trajet")) {
-    return `En ce qui concerne le transport et la logistique régionale, voici les points clés :
+    return `En ce qui concerne la gestion du transport et de la logistique régionale :
 
-- **Optimisation des flux :** Validation des plannings selon la réglementation de conduite et les fenêtres de livraison.
-- **Conformité :** Suivi automatisé des lettres de voiture électroniques (e-CMR).
-- **Fiabilité :** Vérification des informations en direct pour garantir des trajets optimisés.
+- **Optimisation des trajets :** Calcul des itinéraires en tenant compte des créneaux de livraison et des temps de conduite réglementaires.
+- **Gestion des documents :** Dématérialisation et suivi des lettres de voiture électroniques (e-CMR).
+- **Suivi de flotte :** Visualisation en temps réel de la disponibilité des véhicules.
 
-Comment puis-je vous aider plus précisément sur votre projet de transport ?`;
+Comment souhaitez-vous approfondir la gestion de votre flotte ou vos itinéraires ?`;
   }
 
-  // Chat / General Reasoning
-  return `Bonjour ! Je suis **ZoroG4**, votre assistant intelligent propulsé par **Gemma 4** de Google DeepMind (créé par **JIMAN LULU Zoro**).
+  // 10. AI & Gemma 4
+  if (p.includes("ia") || p.includes("intelligence artificielle") || p.includes("gemma")) {
+    return `La gamme **Gemma 4** de Google DeepMind est une famille de modèles ouverts d'intelligence artificielle.
 
-Comment puis-je vous aider aujourd'hui ? Que vous ayez besoin d'aide pour une question, du code, une analyse d'image ou des conseils, je suis à votre écoute !`;
+**Points forts :**
+- **Haute performance :** Capacités avancées en raisonnement, mathématiques et programmation.
+- **Multimodalité :** Prise en charge fluide du texte, du code et des images.
+- **Flexibilité :** Déploiement rapide aussi bien sur le Cloud qu'en environnement local autonome.`;
+  }
+
+  // 11. Generic Smart Answer for any specific query
+  return `Voici des éléments de réponse précis et détaillés concernant votre question : **"${rawPrompt}"**
+
+1. **Explication & Synthèse :**  
+   Pour répondre directement à votre demande, il convient d'aborder la question sous ses angles fondamentaux. Ce sujet implique une démarche méthodique visant à identifier les principes clés et à appliquer les meilleures pratiques.
+
+2. **Aspects essentiels à retenir :**
+   - **Clarté & Méthode :** Une organisation structurée permet de traiter le besoin efficacement.
+   - **Application pratique :** Mettre en œuvre ces concepts vous aidera à obtenir des résultats fiables et mesurables.
+
+3. **Prochaine étape :**
+   Si vous souhaitez un exemple concret, une démonstration en code ou des détails complémentaires sur un aspect spécifique, dites-le moi et je vous accompagnerai étape par étape !`;
 }
 
 // Health Check Endpoint
